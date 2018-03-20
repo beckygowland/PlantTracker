@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddPlant"
+            android:name=".addPlant.AddPlant"
             android:label="@string/title_activity_add_plant"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">

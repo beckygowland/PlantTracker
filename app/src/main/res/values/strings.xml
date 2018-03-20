@@ -10,4 +10,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_settings">Settings</string>
 
+    <string-array name="repeat_array">
+        <item>Daily</item>
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Anually</item>
+        <item>Every Weekday</item>
+        <item>Custom</item>
+    </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="water_reminder">Water</string>
+
 </resources>

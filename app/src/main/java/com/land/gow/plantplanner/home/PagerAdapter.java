@@ -1,4 +1,4 @@
-package com.land.gow.plantplanner;
+package com.land.gow.plantplanner.home;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
