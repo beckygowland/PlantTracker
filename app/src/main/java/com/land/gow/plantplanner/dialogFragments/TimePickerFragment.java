@@ -10,11 +10,13 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class TimePickerFragment extends DialogFragment
                             implements TimePickerDialog.OnTimeSetListener {
     private static final String LOG_TAG = TimePickerFragment.class.getSimpleName();
     private OnPickTimeListener callback;
+    private Date defaultDate;
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
@@ -24,7 +26,6 @@ public class TimePickerFragment extends DialogFragment
     public interface OnPickTimeListener {
         public void onPickTimeListener(int hour, int minute);
     }
-    Button lBut;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

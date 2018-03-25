@@ -1,6 +1,12 @@
 package com.land.gow.plantplanner.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+
+import com.land.gow.plantplanner.BR;
+
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -8,31 +14,27 @@ import java.util.UUID;
  * Created by becky on 2018-03-18.
  */
 
-public class Reminder {
+public class Reminder extends BaseObservable {
 
-    private UUID id;
+    private String id;
+    @Bindable
     private String name;
     private String iconFilePath;
+    @Bindable
     private Date startDate;
+    @Bindable
     private Date endDate;
     private RepeatFrequency repeatFrequency;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
-    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm");
-
     public Reminder(String aName) {
-        id = UUID.randomUUID();
+        id = UUID.randomUUID().toString();
         name = aName;
         startDate = new Date();
         endDate = new Date();
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -41,6 +43,7 @@ public class Reminder {
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
     public String getIconFilePath() {
@@ -57,6 +60,26 @@ public class Reminder {
 
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
+        notifyPropertyChanged(com.land.gow.plantplanner.BR.startDate);
+    }
+
+    public void setStartDate(int day, int month, int year) {
+        Calendar calendar = Calendar.getInstance();
+        if (startDate != null) {
+            calendar.setTime(startDate);
+        }
+        calendar.set(year, month, day);
+        setStartDate(calendar.getTime());
+    }
+
+    public void setStartTime(int hour, int minute) {
+        Calendar calendar = Calendar.getInstance();
+        if (startDate != null) {
+            calendar.setTime(startDate);
+        }
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        setStartDate(calendar.getTime());
     }
 
     public Date getEndDate() {
@@ -65,6 +88,16 @@ public class Reminder {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+        notifyPropertyChanged(com.land.gow.plantplanner.BR.endDate);
+    }
+
+    public void setEndDate(int day, int month, int year) {
+        Calendar calendar = Calendar.getInstance();
+        if (startDate != null) {
+            calendar.setTime(endDate);
+        }
+        calendar.set(year, month, day);
+        setEndDate(calendar.getTime());
     }
 
     public RepeatFrequency getRepeatFrequency() {
@@ -73,18 +106,6 @@ public class Reminder {
 
     public void setRepeatFrequency(RepeatFrequency repeatFrequency) {
         this.repeatFrequency = repeatFrequency;
-    }
-
-    public String getFormattedStartDate(){
-        return dateFormat.format(startDate);
-    }
-
-    public String getFormattedStartTime(){
-        return timeFormat.format(startDate);
-    }
-
-    public String getFormattedEndDate(){
-        return dateFormat.format(endDate);
     }
 
     @Override
@@ -114,8 +135,6 @@ public class Reminder {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", repeatFrequency=" + repeatFrequency +
-                ", dateFormat=" + dateFormat +
-                ", timeFormat=" + timeFormat +
                 '}';
     }
 }

@@ -21,7 +21,6 @@ public class DatePickerFragment extends DialogFragment
     public interface OnPickDateListener {
         public void onPickDateListener(int year, int month, int day);
     }
-    Button lBut;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -42,6 +41,8 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
+        Log.d(LOG_TAG, "-----------------date picker frag " + this.getTag());
+
         callback.onPickDateListener(year, month, day);
     }
 }
