@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-<data xmlns:android="http://schemas.android.com/apk/res/android">
-    <variable name="newPlant" type="com.land.gow.plantplanner.model.Plant"/>
-</data>
-<android.support.constraint.ConstraintLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.land.gow.plantplanner.addPlant.AddPlantFragment"
-    tools:showIn="@layout/activity_add_plant">
-
-    <EditText
-        android:id="@+id/input_plant_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textCapWords"
-        android:text="@={newPlant.name}"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="40dp" />
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/my_recycler_view"
+    <data xmlns:android="http://schemas.android.com/apk/res/android">
+        <variable name="newPlant" type="com.land.gow.plantplanner.model.Plant"/>
+    </data>
+    <android.support.constraint.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_plant_name" />
+        android:layout_height="match_parent"
+        tools:context="com.land.gow.plantplanner.addPlant.AddPlantFragment"
+        tools:showIn="@layout/activity_add_plant">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        app:layout_constraintEnd_toStartOf="parent">
+        <Button
+            android:id="@+id/button_change_icon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/ic_almond" />
+
+        <EditText
+            android:id="@+id/input_plant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textCapWords"
+            android:text="@={newPlant.name}"
+            app:layout_constraintStart_toEndOf="@+id/button_change_icon"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_add_plant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="100dp"
+            android:scrollbars="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_plant_name"/>
 
         <Button
             android:id="@+id/button_add_reminder"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Add Reminder"/>
+            android:layout_width="wrap_content"
+            android:text="Add Reminder"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/button_finish"/>
 
         <Button
             android:id="@+id/button_finish"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Finish" />
-    </LinearLayout>
+            android:layout_width="wrap_content"
+            android:text="Finish"
+            app:layout_constraintStart_toEndOf="@+id/button_add_reminder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

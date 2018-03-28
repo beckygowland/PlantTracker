@@ -11,7 +11,7 @@ import com.land.gow.plantplanner.model.Plant;
 /**
  * Created by becky on 2018-03-22.
  */
-@Database(entities = {Plant.class}, version = 1, exportSchema = false)
+@Database(entities = {Plant.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -24,6 +24,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "plant-tracker-database")
                             // allow queries on the main thread.
                             // Don't do this on a real app! See PersistenceBasicSample for an example.
+                            .fallbackToDestructiveMigration()
+
                             .allowMainThreadQueries()
                             .build();
         }

@@ -4,23 +4,15 @@ package com.land.gow.plantplanner.addPlant;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v4.app.Fragment;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 
-import com.land.gow.plantplanner.BR;
 import com.land.gow.plantplanner.R;
-import com.land.gow.plantplanner.model.DiffCallback;
 import com.land.gow.plantplanner.model.Reminder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReminderListAdapter extends RecyclerView.Adapter<CardReminderView> {

@@ -1,11 +1,12 @@
 package com.land.gow.plantplanner.model;
 
+import android.arch.persistence.room.Entity;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.support.annotation.NonNull;
 
 import com.land.gow.plantplanner.BR;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -13,13 +14,19 @@ import java.util.UUID;
 /**
  * Created by becky on 2018-03-18.
  */
-
+@Entity(tableName = "reminder")
 public class Reminder extends BaseObservable {
 
+    @NonNull
+    private String plantId;
+
+    @NonNull
     private String id;
+
+    @NonNull
     @Bindable
     private String name;
-    private String iconFilePath;
+
     @Bindable
     private Date startDate;
     @Bindable
@@ -44,14 +51,6 @@ public class Reminder extends BaseObservable {
     public void setName(String name) {
         this.name = name;
         notifyPropertyChanged(BR.name);
-    }
-
-    public String getIconFilePath() {
-        return iconFilePath;
-    }
-
-    public void setIconFilePath(String iconFilePath) {
-        this.iconFilePath = iconFilePath;
     }
 
     public Date getStartDate() {
@@ -117,8 +116,6 @@ public class Reminder extends BaseObservable {
 
         if (id != null ? !id.equals(reminder.id) : reminder.id != null) return false;
         if (name != null ? !name.equals(reminder.name) : reminder.name != null) return false;
-        if (iconFilePath != null ? !iconFilePath.equals(reminder.iconFilePath) : reminder.iconFilePath != null)
-            return false;
         if (startDate != null ? !startDate.equals(reminder.startDate) : reminder.startDate != null)
             return false;
         if (endDate != null ? !endDate.equals(reminder.endDate) : reminder.endDate != null)
@@ -131,7 +128,6 @@ public class Reminder extends BaseObservable {
         return "Reminder{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", iconFilePath='" + iconFilePath + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", repeatFrequency=" + repeatFrequency +

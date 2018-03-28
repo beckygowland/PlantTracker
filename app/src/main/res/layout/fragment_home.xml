@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.land.gow.plantplanner.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_show_plants"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/home_title" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

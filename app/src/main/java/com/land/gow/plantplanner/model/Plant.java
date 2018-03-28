@@ -28,6 +28,9 @@ public class Plant extends BaseObservable {
     @ColumnInfo(name = "name")
     private String name;
 
+    @ColumnInfo(name = "icon_file_path")
+    private Integer iconDrawble;
+
     @Ignore
     private List<Reminder> reminders;
 
@@ -53,6 +56,14 @@ public class Plant extends BaseObservable {
         notifyPropertyChanged(BR.name);
     }
 
+    public Integer getIconDrawble() {
+        return iconDrawble;
+    }
+
+    public void setIconDrawble(Integer iconFilePath) {
+        this.iconDrawble = iconFilePath;
+    }
+
     public List<Reminder> getReminders() {
         return reminders;
     }
@@ -74,5 +85,15 @@ public class Plant extends BaseObservable {
             return reminder.getId().equals(id);
         }).findFirst();
         return optional.orElse(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Plant{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", iconDrawable='" + iconDrawble+ '\'' +
+                ", reminders=" + reminders +
+                '}';
     }
 }
