@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 
 import com.land.gow.plantplanner.BR;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +20,7 @@ import java.util.UUID;
  * Created by becky on 2018-03-18.
  */
 @Entity(tableName = "plant")
-public class Plant extends BaseObservable {
+public class Plant extends BaseObservable implements Serializable {
 
     @NonNull
     @PrimaryKey(autoGenerate = false)

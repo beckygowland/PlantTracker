@@ -26,28 +26,36 @@ import com.land.gow.plantplanner.model.Reminder;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class AddPlantFragment extends Fragment implements DatePickerFragment.OnPickDateListener, TimePickerFragment.OnPickTimeListener, ReminderListAdapter.OnAddReminder {
 
     private static final String LOG_TAG = AddPlantFragment.class.getSimpleName();
+    private static final String NEW_PLANT_STATE = "new_plant_state";
 
-    private Plant newPlant = new Plant();
+    private Plant newPlant;
 
     private ReminderListAdapter recyclerViewAdapter;
     private String clickedReminderId;
     private int clickedButtonId;
     private AlertDialog myDialog;
     private View alertView;
+    private Button changeIconButton;
 
     List<Integer> plantIconList = Arrays.asList(R.drawable.flower_almond,R.drawable.flower_alstroemeria,R.drawable.flower_freesia);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Reminder waterReminder = new Reminder(getString(R.string.water_reminder));
-        newPlant.addReminder(waterReminder);
+
+        // recovering the instance state
+        if (savedInstanceState != null) {
+            newPlant = (Plant) savedInstanceState.getSerializable(NEW_PLANT_STATE);
+        } else {
+            newPlant = new Plant();
+            Reminder waterReminder = new Reminder(getString(R.string.water_reminder));
+            newPlant.addReminder(waterReminder);
+            newPlant.setIconDrawble(plantIconList.get(0));
+        }
+
         FragmentAddPlantBinding binding = FragmentAddPlantBinding.inflate(getLayoutInflater(), container, false);
         View v = binding.getRoot();
         binding.setNewPlant(newPlant); // generated setter based on the data in the layout file
@@ -178,21 +186,32 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                changeIconButton.setBackgroundResource(plantIconList.get(iconListAdapter.getClickedPosition()));
+                newPlant.setIconDrawble(plantIconList.get(iconListAdapter.getClickedPosition()));
+                changeIconButton.setBackgroundResource(newPlant.getIconDrawble());
             }
         }).setNegativeButton("Cancel", null);
         myDialog = builder.create();
     }
-    Button changeIconButton;
+
     private void setupIconDialog(View view) {
         initIconPickerDialog(view);
         changeIconButton = (Button) view.findViewById(R.id.button_change_icon);
+        changeIconButton.setBackgroundResource(newPlant.getIconDrawble());
         changeIconButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myDialog.show();
             }
         });
+    }
+
+    // invoked when the activity may be temporarily destroyed, save the instance state here
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(NEW_PLANT_STATE, newPlant);
+
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
     }
 //
 //    public void setIconPicture() {

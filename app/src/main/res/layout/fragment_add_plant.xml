@@ -16,8 +16,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/ic_almond" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/input_plant_name"

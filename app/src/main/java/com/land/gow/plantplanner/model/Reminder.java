@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.land.gow.plantplanner.BR;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * Created by becky on 2018-03-18.
  */
 @Entity(tableName = "reminder")
-public class Reminder extends BaseObservable {
+public class Reminder extends BaseObservable implements Serializable {
 
     @NonNull
     private String plantId;
