@@ -1,11 +1,8 @@
-package com.land.gow.plantplanner.addPlant;
+package com.land.gow.plantplanner.activities.addPlant;
 
-import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.land.gow.plantplanner.R;
 

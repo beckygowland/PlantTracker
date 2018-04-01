@@ -1,4 +1,4 @@
-package com.land.gow.plantplanner.addPlant;
+package com.land.gow.plantplanner.activities.addPlant;
 
 
 import android.databinding.DataBindingUtil;
@@ -67,7 +67,7 @@ public class ReminderListAdapter extends RecyclerView.Adapter<CardReminderView> 
         return mDataset.size();
     }
 
-    public void updateList(List<Reminder> newList) {
+    public void updateList() {
      //   DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallback(mDataset, newList));
 //
 //        mDataset.clear();

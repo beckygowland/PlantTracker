@@ -2,13 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.land.gow.plantplanner">
 
+
+    <!-- permission required to automatically restart a
+          repeating alarm if the user reboots the device -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,14 +23,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".addPlant.AddPlant"
-            android:label="@string/title_activity_add_plant"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme">
+        android:name=".activities.addPlant.AddPlant"
+        android:label="@string/title_activity_add_plant"
+        android:parentActivityName=".MainActivity"
+        android:theme="@style/AppTheme">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.land.gow.plantplanner.MainActivity" />
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.land.gow.plantplanner.MainActivity" />
         </activity>
+        <!-- Register the Alarm Receiver -->
+        <receiver android:name="com.land.gow.plantplanner.services.ReminderAlarmReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

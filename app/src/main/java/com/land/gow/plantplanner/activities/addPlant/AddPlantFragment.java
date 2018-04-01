@@ -1,4 +1,4 @@
-package com.land.gow.plantplanner.addPlant;
+package com.land.gow.plantplanner.activities.addPlant;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,10 +18,14 @@ import android.widget.Spinner;
 import com.land.gow.plantplanner.R;
 import com.land.gow.plantplanner.database.AppDatabase;
 import com.land.gow.plantplanner.databinding.FragmentAddPlantBinding;
-import com.land.gow.plantplanner.dialogFragments.DatePickerFragment;
-import com.land.gow.plantplanner.dialogFragments.TimePickerFragment;
+import com.land.gow.plantplanner.activities.common.DatePickerFragment;
+import com.land.gow.plantplanner.activities.common.TimePickerFragment;
 import com.land.gow.plantplanner.model.Plant;
 import com.land.gow.plantplanner.model.Reminder;
+import com.land.gow.plantplanner.services.PlantService;
+import com.land.gow.plantplanner.services.ReminderAlarmReceiver;
+import com.land.gow.plantplanner.services.NotificationService;
+import com.land.gow.plantplanner.util.PlantIcons;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,8 +43,7 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
     private AlertDialog myDialog;
     private View alertView;
     private Button changeIconButton;
-
-    List<Integer> plantIconList = Arrays.asList(R.drawable.flower_almond,R.drawable.flower_alstroemeria,R.drawable.flower_freesia);
+    private IconListAdapter iconListAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +56,7 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
             newPlant = new Plant();
             Reminder waterReminder = new Reminder(getString(R.string.water_reminder));
             newPlant.addReminder(waterReminder);
-            newPlant.setIconDrawble(plantIconList.get(0));
+            newPlant.setIconDrawble(PlantIcons.flowerList.get(0));
         }
 
         FragmentAddPlantBinding binding = FragmentAddPlantBinding.inflate(getLayoutInflater(), container, false);
@@ -67,7 +70,7 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
         return v;
     }
 
-    private  void setupReminderRecyclerView(View v) {
+    private void setupReminderRecyclerView(View v) {
         RecyclerView mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view_add_plant);
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -83,7 +86,8 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
             @Override
             public void onClick(View view) {
                 newPlant.addReminder(new Reminder(""));
-                recyclerViewAdapter.updateList(newPlant.getReminders());            }
+                recyclerViewAdapter.updateList();
+            }
         });
     }
 
@@ -92,7 +96,7 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
         addReminder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppDatabase.getAppDatabase(v.getContext()).plantDao().insertAll(newPlant);
+                PlantService.addPlant(getContext(), newPlant);
                 getActivity().onBackPressed();
             }
         });
@@ -100,7 +104,7 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
 
     private void initSpinner(Spinner spinner) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-        R.array.repeat_array, android.R.layout.simple_spinner_item);
+                R.array.repeat_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
@@ -127,6 +131,7 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
             reminder.setStartTime(hour, minute);
         }
     }
+
     private void createDatePickerListener(final CardReminderView holder, Reminder reminder, int buttonId) {
         final Fragment thisFrag = this;
         final String id = reminder.getId();
@@ -165,7 +170,6 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
         initSpinner((Spinner) holder.getViewById(R.id.spinner_repeat));
         createDatePickerListener(holder, reminder, R.id.button_end_date);
     }
-    IconListAdapter iconListAdapter;
 
     private void initIconPickerDialog(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -179,14 +183,14 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
         GridLayoutManager mLayoutManager = new GridLayoutManager(getContext(), 5);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        iconListAdapter = new IconListAdapter(plantIconList, 0);
+        iconListAdapter = new IconListAdapter(PlantIcons.flowerList, 0);
         mRecyclerView.setAdapter(iconListAdapter);
         builder.setTitle("Choose Icon");
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                newPlant.setIconDrawble(plantIconList.get(iconListAdapter.getClickedPosition()));
+                newPlant.setIconDrawble(PlantIcons.flowerList.get(iconListAdapter.getClickedPosition()));
                 changeIconButton.setBackgroundResource(newPlant.getIconDrawble());
             }
         }).setNegativeButton("Cancel", null);
@@ -209,32 +213,6 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putSerializable(NEW_PLANT_STATE, newPlant);
-
-        // call superclass to save any view hierarchy
         super.onSaveInstanceState(outState);
     }
-//
-//    public void setIconPicture() {
-//        AssetManager manager = getAssets();
-//
-//        // read a Bitmap from Assets
-//        InputStream open = null;
-//        try {
-//            open = manager.open("logo.png");
-//            Bitmap bitmap = BitmapFactory.decodeStream(open);
-//            // Assign the bitmap to an ImageView in this layout
-//            ImageView view = (ImageView) getView().findViewById(R.id.imageView1);
-//            view.setImageBitmap(bitmap);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (open != null) {
-//                try {
-//                    open.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
 }

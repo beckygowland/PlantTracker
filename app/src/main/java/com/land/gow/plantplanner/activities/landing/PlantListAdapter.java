@@ -1,4 +1,4 @@
-package com.land.gow.plantplanner.addPlant;
+package com.land.gow.plantplanner.activities.landing;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -8,20 +8,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.land.gow.plantplanner.R;
+import com.land.gow.plantplanner.activities.addPlant.CardIconView;
+import com.land.gow.plantplanner.model.Plant;
 
 import java.util.List;
 
-public class IconListAdapter extends RecyclerView.Adapter<CardIconView> {
+public class PlantListAdapter extends RecyclerView.Adapter<CardIconView> {
 
-    private static final String LOG_TAG = IconListAdapter.class.getSimpleName();
+    private static final String LOG_TAG = PlantListAdapter.class.getSimpleName();
 
-    private List<Integer> mDataset;
+    private List<Plant> mDataset;
     private Integer clickedPosition;
 
 
-    public IconListAdapter(List<Integer> myDataset, int defaultSelectedPosition) {
+    public PlantListAdapter(List<Plant> myDataset) {
         mDataset = myDataset;
-        clickedPosition = defaultSelectedPosition;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class IconListAdapter extends RecyclerView.Adapter<CardIconView> {
     @Override
     public void onBindViewHolder(CardIconView holder, int position) {
         Button iconButton = holder.getIconButton();
-        iconButton.setBackgroundResource(mDataset.get(position));
+        iconButton.setBackgroundResource(mDataset.get(position).getIconDrawble());
         iconButton.setOnClickListener(new View.OnClickListener() {
                   @Override
                   public void onClick(View view) {
