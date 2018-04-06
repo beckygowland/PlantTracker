@@ -22,7 +22,7 @@ public class PlantService {
         AppDatabase.getAppDatabase(context).plantDao().insertAll(plant);
 
         for (Reminder reminder: plant.getReminders()) {
-            NotificationService.setReminder(context, ReminderAlarmReceiver.class, reminder.getStartDate());
+            NotificationService.setReminder(context, ReminderAlarmReceiver.class, reminder);
         }
     }
 }

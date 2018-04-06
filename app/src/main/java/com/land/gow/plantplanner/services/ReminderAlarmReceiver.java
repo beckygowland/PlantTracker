@@ -16,7 +16,6 @@ public class ReminderAlarmReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             NotificationService notificationService = new NotificationService(context);
-
             Notification.Builder nb = notificationService.
                     getAndroidChannelNotification("Time for some plant love!", "Water the cactus" );
 

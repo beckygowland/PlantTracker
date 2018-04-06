@@ -32,13 +32,18 @@ public class Reminder extends BaseObservable implements Serializable {
     private Date startDate;
     @Bindable
     private Date endDate;
+
     private RepeatFrequency repeatFrequency;
+
+    @Bindable
+    private Integer dailyRepeat;
 
     public Reminder(String aName) {
         id = UUID.randomUUID().toString();
         name = aName;
         startDate = new Date();
         endDate = new Date();
+        dailyRepeat = 0;
     }
 
     public String getId() {
@@ -108,6 +113,14 @@ public class Reminder extends BaseObservable implements Serializable {
         this.repeatFrequency = repeatFrequency;
     }
 
+    public Integer getDailyRepeat() {
+        return dailyRepeat;
+    }
+
+    public void setDailyRepeat(Integer dailyRepeat) {
+        this.dailyRepeat = dailyRepeat;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -129,6 +142,7 @@ public class Reminder extends BaseObservable implements Serializable {
         return "Reminder{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", dailyrepeat='" + dailyRepeat+ '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", repeatFrequency=" + repeatFrequency +

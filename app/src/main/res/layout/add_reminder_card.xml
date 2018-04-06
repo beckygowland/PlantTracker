@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data xmlns:android="http://schemas.android.com/apk/res/android">
         <import type="com.land.gow.plantplanner.util.DateFormatter" />
         <variable name="reminder" type="com.land.gow.plantplanner.model.Reminder"/>
@@ -44,13 +45,14 @@
                 app:layout_constraintStart_toEndOf="@+id/button_start_date"
                 app:layout_constraintTop_toBottomOf="@+id/input_reminder_name" />
 
-            <Spinner
-                android:id="@+id/spinner_repeat"
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/input_repeat"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:inputType="number"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_start_time"/>
+                app:layout_constraintTop_toBottomOf="@+id/button_start_time" />
 
             <Button
                 android:id="@+id/button_end_date"
@@ -59,7 +61,8 @@
                 android:layout_marginTop="10dp"
                 android:text="@{DateFormatter.getDateString(reminder.endDate)}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_repeat" />
+                app:layout_constraintTop_toBottomOf="@+id/input_repeat" />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 </layout>

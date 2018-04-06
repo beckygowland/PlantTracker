@@ -14,6 +14,8 @@ import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 
+import com.land.gow.plantplanner.model.Reminder;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -27,7 +29,6 @@ public class NotificationService extends ContextWrapper {
     private static final String LOG_TAG = NotificationService.class.getSimpleName();
     public static final String REMINDER_CHANNEL_ID = "com.land.gow.reminder";
     public static final String REMINDER_CHANNEL_NAME = "REMINDER CHANNEL";
-    private static final int DAILY_REMINDER_REQUEST_CODE = 123;
 
     private NotificationManager mManager;
 
@@ -62,12 +63,12 @@ public class NotificationService extends ContextWrapper {
         }
         return mManager;
     }
-    public static void setReminder(Context context, Class<?> cls, Date startDate) {
+    public static void setReminder(Context context, Class<?> cls, Reminder reminder) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startDate);
+        calendar.setTime(reminder.getStartDate());
         // cancel already scheduled reminders
         //cancelReminder(context,cls);
-
+        int uniqueReminderId = reminder.getId().hashCode();
         // Enable a receiver
         ComponentName receiver = new ComponentName(context, cls);
         PackageManager pm = context.getPackageManager();
@@ -77,15 +78,17 @@ public class NotificationService extends ContextWrapper {
 
         Intent intent1 = new Intent(context, cls);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                DAILY_REMINDER_REQUEST_CODE, intent1,
+                uniqueReminderId, intent1,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent);
+                AlarmManager.INTERVAL_DAY * reminder.getDailyRepeat(), pendingIntent);
     }
 
-    public static void cancelReminder(Context context,Class<?> cls)
+    public static void cancelReminder(Context context,Class<?> cls, Reminder reminder)
     {
+        int uniqueReminderId = reminder.getId().hashCode();
+
         // Disable a receiver
         ComponentName receiver = new ComponentName(context, cls);
         PackageManager pm = context.getPackageManager();
@@ -95,7 +98,7 @@ public class NotificationService extends ContextWrapper {
 
         Intent intent1 = new Intent(context, cls);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
-                DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                uniqueReminderId, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         am.cancel(pendingIntent);
         pendingIntent.cancel();

@@ -8,11 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.land.gow.plantplanner.R;
@@ -102,13 +106,6 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
         });
     }
 
-    private void initSpinner(Spinner spinner) {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.repeat_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
-
     private void createTimePickerListener(CardReminderView holder, Reminder reminder, int buttonId) {
         final Fragment thisFrag = this;
         final String id = reminder.getId();
@@ -164,11 +161,34 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
     }
 
     @Override
-    public void onAddReminderListener(CardReminderView holder, Reminder reminder) {
+    public void onAddReminderListener(final CardReminderView holder, Reminder reminder) {
         createDatePickerListener(holder, reminder, R.id.button_start_date);
         createTimePickerListener(holder, reminder, R.id.button_start_time);
-        initSpinner((Spinner) holder.getViewById(R.id.spinner_repeat));
         createDatePickerListener(holder, reminder, R.id.button_end_date);
+        EditText numInput = (EditText) holder.getViewById(R.id.input_repeat);
+        numInput.setText(reminder.getDailyRepeat().toString());
+        numInput.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.d(LOG_TAG, "----------num input " + editable.toString());
+                if (editable.toString().length() > 0) {
+                    reminder.setDailyRepeat(Integer.valueOf(editable.toString()));
+                }
+                Log.d(LOG_TAG, "----------reference updated?? " + newPlant.getReminders());
+
+            }
+        });
     }
 
     private void initIconPickerDialog(View view) {
@@ -187,25 +207,19 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
         mRecyclerView.setAdapter(iconListAdapter);
         builder.setTitle("Choose Icon");
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newPlant.setIconDrawble(PlantIcons.flowerList.get(iconListAdapter.getClickedPosition()));
-                changeIconButton.setBackgroundResource(newPlant.getIconDrawble());
-            }
+        builder.setPositiveButton("OK", (DialogInterface dialog, int which) -> {
+            newPlant.setIconDrawble(PlantIcons.flowerList.get(iconListAdapter.getClickedPosition()));
+            changeIconButton.setBackgroundResource(newPlant.getIconDrawble());
         }).setNegativeButton("Cancel", null);
         myDialog = builder.create();
     }
 
     private void setupIconDialog(View view) {
         initIconPickerDialog(view);
-        changeIconButton = (Button) view.findViewById(R.id.button_change_icon);
+        changeIconButton = view.findViewById(R.id.button_change_icon);
         changeIconButton.setBackgroundResource(newPlant.getIconDrawble());
-        changeIconButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myDialog.show();
-            }
+        changeIconButton.setOnClickListener((View v) -> {
+            myDialog.show();
         });
     }
 

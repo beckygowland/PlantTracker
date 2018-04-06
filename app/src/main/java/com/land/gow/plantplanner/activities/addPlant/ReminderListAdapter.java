@@ -51,14 +51,11 @@ public class ReminderListAdapter extends RecyclerView.Adapter<CardReminderView> 
 
     @Override
     public void onBindViewHolder(CardReminderView holder, int position) {
-        Log.d(LOG_TAG, "----------on bindviewholder adapter");
-
         ViewDataBinding viewDataBinding = holder.getViewDataBinding();
 
         viewDataBinding.setVariable(com.land.gow.plantplanner.BR.reminder, mDataset.get(position));
 
         callback.onAddReminderListener(holder, mDataset.get(position));
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
