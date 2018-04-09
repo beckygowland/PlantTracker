@@ -7,6 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.land.gow.plantplanner.BR;
 
@@ -96,5 +97,13 @@ public class Plant extends BaseObservable implements Serializable {
                 ", iconDrawable='" + iconDrawble+ '\'' +
                 ", reminders=" + reminders +
                 '}';
+    }
+
+    public void deleteReminder(String id) {
+        if (reminders != null) {
+            reminders.removeIf(reminder -> {
+                return id == reminder.getId();
+            });
+        }
     }
 }

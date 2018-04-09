@@ -43,7 +43,6 @@ public class ReminderListAdapter extends RecyclerView.Adapter<CardReminderView> 
     @Override
     public CardReminderView onCreateViewHolder(ViewGroup parent,
                                                              int viewType) {
-        Log.d(LOG_TAG, "oncreteviewholder adapter");
         ViewDataBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.add_reminder_card, parent, false);
 
         return new CardReminderView(binding);
@@ -69,7 +68,7 @@ public class ReminderListAdapter extends RecyclerView.Adapter<CardReminderView> 
 //
 //        mDataset.clear();
 //        mDataset.addAll(newList);
-Log.d(LOG_TAG, "--------------update list " + mDataset);
+
         //TODO: everything im reading seems to say i can and should use: diffResult.dispatchUpdatesTo(this);
         notifyDataSetChanged();
     }

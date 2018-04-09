@@ -165,6 +165,7 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
         createDatePickerListener(holder, reminder, R.id.button_start_date);
         createTimePickerListener(holder, reminder, R.id.button_start_time);
         createDatePickerListener(holder, reminder, R.id.button_end_date);
+        createDeleteListener(holder, reminder);
         EditText numInput = (EditText) holder.getViewById(R.id.input_repeat);
         numInput.setText(reminder.getDailyRepeat().toString());
         numInput.addTextChangedListener(new TextWatcher() {
@@ -181,13 +182,19 @@ public class AddPlantFragment extends Fragment implements DatePickerFragment.OnP
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d(LOG_TAG, "----------num input " + editable.toString());
                 if (editable.toString().length() > 0) {
                     reminder.setDailyRepeat(Integer.valueOf(editable.toString()));
                 }
-                Log.d(LOG_TAG, "----------reference updated?? " + newPlant.getReminders());
-
             }
+        });
+    }
+
+    private void createDeleteListener(CardReminderView holder, Reminder reminder) {
+        Button deleteButton = (Button) holder.getViewById(R.id.button_delete_reminder);
+        deleteButton.setOnClickListener((view) -> {
+            newPlant.deleteReminder(reminder.getId());
+            recyclerViewAdapter.updateList();
+
         });
     }
 

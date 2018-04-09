@@ -18,6 +18,8 @@ public class CardReminderView extends RecyclerView.ViewHolder {
     private ViewDataBinding mViewDataBinding;
 
     private EditText name;
+    private Button delete;
+
     private EditText dailyRepeat;
     private Button startDate;
     private Button startTime;
@@ -30,6 +32,7 @@ public class CardReminderView extends RecyclerView.ViewHolder {
         mViewDataBinding.executePendingBindings();
 
         name = (EditText) viewDataBinding.getRoot().findViewById(R.id.input_reminder_name);
+        delete = (Button) viewDataBinding.getRoot().findViewById(R.id.button_delete_reminder);
         dailyRepeat = (EditText) viewDataBinding.getRoot().findViewById(R.id.input_repeat);
 
         startDate = (Button) viewDataBinding.getRoot().findViewById(R.id.button_start_date);
@@ -41,6 +44,8 @@ public class CardReminderView extends RecyclerView.ViewHolder {
         switch (id) {
             case R.id.input_reminder_name:
                 return name;
+            case R.id.button_delete_reminder:
+                return delete;
             case R.id.input_repeat:
                 return dailyRepeat;
             case R.id.button_start_date:
