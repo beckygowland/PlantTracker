@@ -64,7 +64,6 @@ public class HomeFragment extends Fragment {
         super.onResume();
 
         plants = AppDatabase.getAppDatabase(getContext()).plantDao().getAll();
-        iconListAdapter.notifyDataSetChanged();
-        Log.d(LOG_TAG, "--------------resume " + plants);
+        iconListAdapter.updateView(plants);
     }
 }

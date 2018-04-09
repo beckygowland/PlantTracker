@@ -57,4 +57,9 @@ public class PlantListAdapter extends RecyclerView.Adapter<CardIconView> {
         return clickedPosition;
     }
 
+    public void updateView (List<Plant> newPlantList) {
+        mDataset = newPlantList;
+        notifyDataSetChanged();
+    }
+
 }
