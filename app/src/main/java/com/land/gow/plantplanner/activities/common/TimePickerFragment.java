@@ -13,10 +13,21 @@ public class TimePickerFragment extends DialogFragment
                             implements TimePickerDialog.OnTimeSetListener {
     private static final String LOG_TAG = TimePickerFragment.class.getSimpleName();
     private OnPickTimeListener callback;
-    private Date defaultDate;
+    Calendar iInitialDate;
+    private Integer id;
+
+    public void setDate(Calendar initalDate) {
+        iInitialDate = initalDate;
+    }
+
+    public void setId(int aId) {
+        id = aId;
+    }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+        iInitialDate.set(Calendar.HOUR, hour);
+        iInitialDate.set(Calendar.MINUTE, minute);
         callback.onPickTimeListener(hour, minute);
     }
 
@@ -27,10 +38,11 @@ public class TimePickerFragment extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Use the current date as the default date in the picker
-        final Calendar todaysDate = Calendar.getInstance();
-        int hour = todaysDate.get(Calendar.HOUR);
-        int minute = todaysDate.get(Calendar.MINUTE);
+        if (iInitialDate == null) {
+            iInitialDate = Calendar.getInstance();
+        }
+        int hour = iInitialDate.get(Calendar.HOUR);
+        int minute = iInitialDate.get(Calendar.MINUTE);
 
         try {
             callback = (OnPickTimeListener) getTargetFragment();

@@ -3,6 +3,7 @@ package com.land.gow.plantplanner.activities.common;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.widget.DatePicker;
@@ -14,17 +15,28 @@ public class DatePickerFragment extends DialogFragment
     private static final String LOG_TAG = DatePickerFragment.class.getSimpleName();
     private OnPickDateListener callback;
     public interface OnPickDateListener {
-        public void onPickDateListener(int year, int month, int day);
+        public void onPickDateListener(int year, int month, int day, int id);
+    }
+    Calendar iInitialDate;
+    private Integer id;
+
+    public void setDate(Calendar initalDate) {
+        iInitialDate = initalDate;
     }
 
-    @Override
+    public void setId(int aId) {
+        id = aId;
+    }
+
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Use the current date as the default date in the picker
-        final Calendar todaysDate = Calendar.getInstance();
-        int year = todaysDate.get(Calendar.YEAR);
-        int month = todaysDate.get(Calendar.MONTH);
-        int day = todaysDate.get(Calendar.DAY_OF_MONTH);
+        if (iInitialDate == null) {
+            iInitialDate = Calendar.getInstance();
+        }
+        int year = iInitialDate.get(Calendar.YEAR);
+        int month = iInitialDate.get(Calendar.MONTH);
+        int day = iInitialDate.get(Calendar.DAY_OF_MONTH);
 
         try {
             callback = (OnPickDateListener) getTargetFragment();
@@ -36,8 +48,7 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        Log.d(LOG_TAG, "-----------------date picker frag " + this.getTag());
-
-        callback.onPickDateListener(year, month, day);
+        iInitialDate.set(year, month, day);
+        callback.onPickDateListener(year, month, day, id);
     }
 }
